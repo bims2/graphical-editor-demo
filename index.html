@@ -2,13 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>graphical editor demo</title>
-    <script type="module">
-        import './src/js/graphical_editor.js'
-        new KPS.Editor('editor', {width: 1, height:1});
+    <link href="src/css/style.css" rel="stylesheet">
+    <title>demo</title>
+    <script>
+        function navigate(url) {
+            window.location.href = url;
+        }
     </script>
 </head>
 <body>
-    <div id='editor'></div>
+    <div class="grid grid-cols-3 gap-3 m-5">
+        <div class="bg-amber-300 py-5 px-2 text-center cursor-pointer rounded-tl-lg
+                    hover:bg-amber-500 hover:scale-110 hover:text-xl subpixel-antialiased duration-300"
+            onclick="navigate('./src/html/inspection_mark_editor.html')">
+            점검계통 지정 컨트롤
+        </div>
+        <div class="bg-gray-200 py-5 px-2 text-center opacity-55">
+            점검계통 선택 컨트롤
+        </div>
+        <div class="bg-gray-200 py-5 px-2 text-center rounded-tr-lg opacity-55">
+            점검계통 표기 컨트롤
+        </div>
+        <div class="bg-blue-300 py-5 px-2 col-start-1 col-end-4 text-center cursor-pointer
+                    hover:bg-blue-500 hover:scale-105 hover:text-xl hover:subpixel-antialiased duration-300"
+             onclick="navigate('./src/html/graphical_editor.html')">
+            그래픽 에디터
+        </div>
+        <div class="bg-gray-200 py-5 px-2 text-center rounded-bl-lg opacity-55">
+            점검영역 지정 컨트롤
+        </div>
+        <div class="bg-gray-200 py-5 px-2 text-center opacity-55">
+            점검결과 라벨포기 컨트롤
+        </div>
+        <div class="bg-gray-200 py-5 px-2 text-center rounded-br-lg opacity-55">
+            내시경 이미지 배치 컨트롤
+        </div>
+    </div>
 </body>
 </html>
