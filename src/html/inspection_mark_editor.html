@@ -66,12 +66,12 @@
             }
             let json = {};
             json.capture_list = list;
-            editor.openCaptureAreaData(json);
+            console.log(editor.openCaptureAreaData(json));
         }
 
         window.openData = function() {
             jsonOpen((json)=> {
-                editor.openCaptureAreaData(json);
+                console.log(editor.openCaptureAreaData(json));
             });
         }
 
