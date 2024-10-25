@@ -67,6 +67,7 @@
             }
             let json = {};
             json.capture_list = list;
+            console.log(json.capture_list);
             console.log(editor.openCaptureAreaData(json));
         }
 
@@ -110,6 +111,10 @@
                     break;
             }
         });
+
+        window.changeCaptureImage = ()=> {
+            editor.changeCaptureImage();
+        }
     </script>
 </head>
 <body>
@@ -120,6 +125,7 @@
 데이터 명세 (JSON)
 {
     "bgImage": ""[base64Image - 배경이미지],
+    "capture_image": ""[base64Image - 캡처이미지 / 지정되지 않은 경우 수정또는 등록되려는 캡처영역의 이미지가 적용됨],
     "capture_list: [
         {
             "disable": true[기본값은 true, false인 경우 해당 캡처영역 수정가능],
@@ -138,8 +144,9 @@
             <div>
                 <div id='editor' style="width: 70vw; height: 70vh"></div>
                 <div class="flex justify-end mr-5">
-                    <button type="button" class="col-start-9 w-28 h-12 mr-5 rounded bg-blue-200" onclick="openData()">데이터 가져오기</button>
-                    <button type="button" id='data_test_btn' class="hidden col-start-10 w-24 h-12 rounded bg-blue-200" onclick="save()">저장</button>
+                    <button type="button" class="col-start-9 w-28 h-12 rounded bg-blue-200" onclick="changeCaptureImage()">캡처 이미지 변경</button>
+                    <button type="button" class="col-start-9 ml-5 w-28 h-12 rounded bg-blue-200" onclick="openData()">데이터 가져오기</button>
+                    <button type="button" id='data_test_btn' class="hidden col-start-10 ml-5 w-24 h-12 rounded bg-blue-200" onclick="save()">저장</button>
                 </div>
             </div>
         </div>
