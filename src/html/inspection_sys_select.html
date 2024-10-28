@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <link href="../css/style.css" rel="stylesheet">
-    <title>점검영역 표기 컨트롤</title>
+    <title>점검영역 선택 컨트롤</title>
     <script type="module">
         import '../js/graphical_editor.js'
-        const editor = new KPS.Editor('editor', KPS.EditorType.INSPECTION_SYS_VIEWER);
+        const editor = new KPS.Editor('editor', KPS.EditorType.INSPECTION_SYS_SELECT);
         const idTag = document.getElementById('id');
         const nameTag = document.getElementById('name');
         editor.setSelectAreaListener((id, name)=> {
