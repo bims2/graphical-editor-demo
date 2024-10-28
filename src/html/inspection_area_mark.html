@@ -65,6 +65,17 @@
             console.log(editor.openCaptureAreaData(json));
         }
 
+        window.loadCaptureViewPosition = function() {
+            if (!list.length) {
+                console.log('empty');
+                return;
+            }
+            let json = {};
+            json.disable = true;
+            json.capture_list = list;
+            console.log(editor.openCaptureAreaData(json));
+        }
+
         window.openData = function() {
             jsonOpen((json)=> {
                 console.log(editor.openCaptureAreaData(json));
@@ -114,6 +125,7 @@
             <p class="p-5 rounded whitespace-pre-wrap text-left border-black border-2">
 데이터 명세 (JSON)
 {
+    "disable": false[기본값은 false, true인 경우 새로운 영역지정 또는 수정을 할 수 없음],
     "bgImage": ""[base64Image - 배경이미지],
     "capture_list: [
         {
@@ -146,6 +158,7 @@
             <button class="rounded bg-custom-blue-200 p-2" onclick="initPositionList()">초기화</button>
             <button class="rounded bg-custom-blue-200 p-2 my-5" onclick="addPosition()">현재 캡처위치 추가</button>
             <button class="rounded bg-custom-blue-200 p-2" onclick="loadCapturePosition()">캡처위치 목록 불러오기</button>
+            <button class="rounded bg-custom-blue-200 p-2 mt-5" onclick="loadCaptureViewPosition()">캡처위치 목록 불러오기 (보기전용)</button>
         </div>
     </div>
 </div>
