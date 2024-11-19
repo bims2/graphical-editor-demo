@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../css/style.css" rel="stylesheet">
+    <title>점검결과 라벨표기 컨트롤</title>
+    <script type="module">
+        import '../js/graphical_editor.js'
+        const editor = new KPS.Editor('editor', {type: KPS.EditorType.INSPECTION_RESULT_LABEL});
+
+        const label_position = document.getElementById('label_position');
+        let label_list = {};
+        window.saveLabelData = function() {
+            const json = editor.saveLabelData();
+            label_position.value = JSON.stringify(json.label_list);
+            label_list = json.label_list;
+        }
+
+        const data = {"label_list": [], "disable": true};
+        window.openLabelData = function() {
+            jsonOpen((json)=> {
+                data.capture_list = json.capture_list;
+                console.log(editor.openLabelData(json));
+            });
+        }
+
+        function jsonOpen(execute) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'json/*';
+            input.style.display = 'none';
+
+            input.addEventListener('change', (e) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    execute(JSON.parse(e.target.result));
+                }
+                reader.readAsText(e.target.files[0]);
+            });
+
+            input.click();
+        }
+
+        const label_map = new Map();
+        const label_position_list = document.getElementById('label_position_list');
+        window.addLabelPosition = function() {
+            if (label_list.length === 0) {
+                return;
+            }
+
+            label_map.clear();
+            label_list.forEach((label, idx)=> {
+                const position = { [idx] : label };
+                const p = document.createElement('p');
+
+                const span = document.createElement('span');
+                span.textContent = JSON.stringify(position);
+
+                const checkBox = document.createElement('input');
+                checkBox.type = 'checkBox';
+                checkBox.checked = true;
+                checkBox.addEventListener('click', (e)=> {
+                    if (e.target.checked) {
+                        label_map.set(idx, label);
+                    } else {
+                        label_map.delete(idx);
+                    }
+                });
+                p.appendChild(checkBox);
+                p.appendChild(span);
+                label_position_list.appendChild(p);
+
+                label_map.set(idx, label);
+            })
+        }
+
+        window.initPositionList = function() {
+            label_map.clear();
+            while (label_position_list.firstChild) {
+                label_position_list.removeChild(label_position_list.firstChild);
+            }
+        }
+
+        window.loadLabelPosition = ()=> {
+            data.label_list = [];
+            for (let label of label_map.values()) {
+                data.label_list.push(label);
+            }
+            editor.openLabelData(data);
+            console.log(data);
+        }
+
+        const data_details = document.getElementById('data_details');
+        const data_test = document.getElementById('data_test');
+        const data_test_btn = document.getElementById('data_test_btn');
+        window.addEventListener('keydown', (e)=> {
+            switch (e.code) {
+                case 'F1': {
+                    const view = data_details.classList.contains('hidden');
+                    view ? data_details.classList.remove('hidden') : data_details.classList.add('hidden');
+                }
+                    break;
+                case 'F2':
+                    const view = data_test.classList.contains('hidden');
+                    view ? data_test.classList.remove('hidden') : data_test.classList.add('hidden');
+                    view ? data_test_btn.classList.remove('hidden') : data_test_btn.classList.add('hidden');
+                    break;
+            }
+        });
+    </script>
+</head>
+    <body>
+        <div class="flex flex-col">
+            <div class="flex justify-center items-center">
+                <div id="data_details" class="hidden flex justify-center items-center m-5">
+                    <p class="p-5 rounded whitespace-pre-wrap text-left border-black border-2">
+데이터 명세 (JSON)
+{
+    "disable": false[기본값은 false, true인 경우 새로운 영역지정 또는 수정을 할 수 없음],
+    "bgImage": ""[base64Image - 배경이미지],
+    "capture_image": ""[base64Image - 캡처이미지 / 지정되지 않은 경우 수정또는 등록되려는 캡처영역의 이미지가 적용됨],
+    "capture_list: [
+        {
+            "disable": true[기본값은 true, false인 경우 해당 캡처영역 수정가능],
+            "capture_position": {
+                "lt": {"x":0,"y":0},
+                "rb":{"x":0.1,"y":0.1}
+            }
+        }...
+    ],
+    "label_list": [
+        {
+            "text": ""[라벨 텍스트],
+            "arrow_line": {[화살표 좌표]
+                "p1": {
+                    "x": 0.14384209776397158,
+                    "y": 0.05845023212003733
+                },
+                "p2": {
+                    "x": 0.24289675810191413,
+                    "y": 0.15256257449344457
+                }
+            },
+            "position": {[라벨 좌표]
+                "lt": {
+                    "x": 0.07778970662525558,
+                    "y": 0.041084829505473465
+                },
+                "rb": {
+                    "x": 0.14384209776397158,
+                    "y": 0.0758156347346012
+                }
+            }
+        }
+    ]
+}
+
+* 기본적으로 disable 속성은 "capture_list"중에 하나만 지정되어야 합니다.
+* "capture_list"의 값이 없는 경우 빈 리스트([])로 설정되어야 합니다.
+* "label_list"의 값이 없는 경우 빈 리스트([])로 설정되어야 합니다.
+                </div>
+                <div>
+                    <div id='editor' style="width: 70vw; height: 70vh"></div>
+                    <div class="flex justify-end mr-5">
+                        <button type="button" class="col-start-9 ml-5 w-28 h-12 rounded bg-blue-200" onclick="openLabelData()">데이터 가져오기</button>
+                        <button type="button" id='data_test_btn' class="hidden col-start-10 ml-5 w-24 h-12 rounded bg-blue-200" onclick="saveLabelData()">저장</button>
+                    </div>
+                </div>
+            </div>
+            <div id ='data_test' class="hidden grid auto-rows-auto grid-cols-10 gap-2 px-12 my-10">
+                <textarea id="label_position" class="col-start-2 col-span-8 h-32 bg-custom-blue-300"></textarea>
+                <div id="label_position_list" class="col-start-2 col-span-6 p-5 bg-custom-blue-100">
+                </div>
+                <div class="flex flex-col col-span-2">
+                    <button class="rounded bg-custom-blue-200 p-2" onclick="initPositionList()">초기화</button>
+                    <button class="rounded bg-custom-blue-200 p-2 my-5" onclick="addLabelPosition()">현재 라벨위치 추가</button>
+                    <button class="rounded bg-custom-blue-200 p-2" onclick="loadLabelPosition()">라벨위치 불러오기</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

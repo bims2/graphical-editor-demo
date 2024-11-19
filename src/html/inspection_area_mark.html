@@ -5,8 +5,8 @@
     <link href="../css/style.css" rel="stylesheet">
     <title>점검영역 지정 컨트롤</title>
     <script type="module">
-        import '../js/graphical_editor.js'
-        const editor = new KPS.Editor('editor', KPS.EditorType.INSPECTION_AREA_MARK);
+        import '../js/graphical_editor.js';
+        const editor = new KPS.Editor('editor', {type: KPS.EditorType.INSPECTION_AREA_MARK});
 
         const capture_position = document.getElementById('capture_position');
         window.save = function() {
@@ -139,7 +139,7 @@
 }
 
 * 기본적으로 disable 속성은 "capture_list"중에 하나만 지정되어야 합니다.
-* "capture_list"의 값이 없는 경우 빈 문자열값([])으로 설정되어야 합니다.
+* "capture_list"의 값이 없는 경우 빈 리스트([])로 설정되어야 합니다.
             </p>
         </div>
         <div>
