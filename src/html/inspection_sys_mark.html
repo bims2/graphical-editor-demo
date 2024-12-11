@@ -7,6 +7,9 @@
     <script type="module">
         import '../js/graphical_editor.js'
         const editor = new KPS.Editor('editor', {type: KPS.EditorType.INSPECTION_SYS_MARK});
+        editor.setCaptureImageListener(()=> {
+           console.log('이미지 변경');
+        });
 
         const capture_image = document.getElementById('capture_image');
         const capture_image_base64 = document.getElementById('capture_image_base64');
