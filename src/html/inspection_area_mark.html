@@ -9,8 +9,8 @@
         const editor = new KPS.Editor('editor', {type: KPS.EditorType.INSPECTION_AREA_MARK});
 
         const capture_position = document.getElementById('capture_position');
-        window.save = function() {
-            const json = editor.saveCaptureArea();
+        window.saveData = function() {
+            const json = editor.saveData();
             console.log(json);
             if (!json) {
                 return;
@@ -21,7 +21,7 @@
         let list = [];
         const capture_position_list = document.getElementById('capture_position_list');
         window.addPosition = function() {
-            const json = editor.saveCaptureArea();
+            const json = editor.saveData();
             if (!json) {
                 return;
             }
@@ -62,7 +62,7 @@
             }
             let json = {};
             json.capture_list = list;
-            console.log(editor.openCaptureAreaData(json));
+            console.log(editor.openData(json));
         }
 
         window.loadCaptureViewPosition = function() {
@@ -73,12 +73,12 @@
             let json = {};
             json.disable = true;
             json.capture_list = list;
-            console.log(editor.openCaptureAreaData(json));
+            console.log(editor.openData(json));
         }
 
         window.openData = function() {
             jsonOpen((json)=> {
-                console.log(editor.openCaptureAreaData(json));
+                console.log(editor.openData(json));
             });
         }
 
@@ -146,7 +146,7 @@
             <div id='editor' style="width: 70vw; height: 70vh"></div>
             <div class="flex justify-end mr-5">
                 <button class="col-start-9 w-28 h-12 rounded bg-blue-200" onclick="openData()">데이터 가져오기</button>
-                <button id='data_test_btn' class="hidden col-start-10 ml-5 w-24 h-12 rounded bg-blue-200" onclick="save()">저장</button>
+                <button id='data_test_btn' class="hidden col-start-10 ml-5 w-24 h-12 rounded bg-blue-200" onclick="saveData()">저장</button>
             </div>
         </div>
     </div>

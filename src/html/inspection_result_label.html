@@ -10,17 +10,17 @@
 
         const label_position = document.getElementById('label_position');
         let label_list = {};
-        window.saveLabelData = function() {
-            const json = editor.saveLabelData();
+        window.saveData = function() {
+            const json = editor.saveData();
             label_position.value = JSON.stringify(json.label_list);
             label_list = json.label_list;
         }
 
         const data = {"label_list": [], "disable": true};
-        window.openLabelData = function() {
+        window.openData = function() {
             jsonOpen((json)=> {
                 data.capture_list = json.capture_list;
-                console.log(editor.openLabelData(json));
+                console.log(editor.openData(json));
             });
         }
 
@@ -86,7 +86,7 @@
             for (let label of label_map.values()) {
                 data.label_list.push(label);
             }
-            editor.openLabelData(data);
+            editor.openData(data);
             console.log(data);
         }
 
@@ -162,8 +162,8 @@
                 <div>
                     <div id='editor' style="width: 70vw; height: 70vh"></div>
                     <div class="flex justify-end mr-5">
-                        <button type="button" class="col-start-9 ml-5 w-28 h-12 rounded bg-blue-200" onclick="openLabelData()">데이터 가져오기</button>
-                        <button type="button" id='data_test_btn' class="hidden col-start-10 ml-5 w-24 h-12 rounded bg-blue-200" onclick="saveLabelData()">저장</button>
+                        <button type="button" class="col-start-9 ml-5 w-28 h-12 rounded bg-blue-200" onclick="openData()">데이터 가져오기</button>
+                        <button type="button" id='data_test_btn' class="hidden col-start-10 ml-5 w-24 h-12 rounded bg-blue-200" onclick="saveData()">저장</button>
                     </div>
                 </div>
             </div>
