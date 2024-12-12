@@ -10,7 +10,7 @@
             {
                 type: KPS.EditorType.INSPECTION_SYS_SELECT,
                 expand: {
-                    insp_sys_sel: {opacity: 0.5}
+                    insp_sys_sel: {opacity: 0.1}
                 }
             }
         );
@@ -23,7 +23,7 @@
 
         window.openData = function() {
             jsonOpen((json)=> {
-                console.log(editor.openCaptureAreaData(json));
+                console.log(editor.openData(json));
             });
         }
 
